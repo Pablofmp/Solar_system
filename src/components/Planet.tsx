@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { PlanetData } from '../data/planets';
 import { calculatePositionWithPrecession, degToRad } from '../physics/orbitalMechanics';
+import { Atmosphere, Auroras, EnhancedSaturnRings } from './Atmosphere';
 
 interface PlanetProps {
   planet: PlanetData;
@@ -171,8 +172,26 @@ export function Planet({ planet, time, isSelected, onClick, showOrbit, showLabel
           <sphereGeometry args={[visualSize, 32, 32]} />
         </mesh>
 
-        {/* Anéis de Saturno */}
-        {planet.id === 'saturn' && <SaturnRings radius={visualSize} />}
+        {/* Atmosfera da Terra */}
+        {planet.id === 'earth' && (
+          <>
+            <Atmosphere radius={visualSize} color="#4da6ff" opacity={0.4} />
+            <Auroras radius={visualSize} visible={true} />
+          </>
+        )}
+
+        {/* Atmosfera de Vénus */}
+        {planet.id === 'venus' && (
+          <Atmosphere radius={visualSize} color="#e8cda0" opacity={0.5} />
+        )}
+
+        {/* Atmosfera de Titã (se fosse um planeta) */}
+        {planet.id === 'jupiter' && (
+          <Atmosphere radius={visualSize} color="#d4a574" opacity={0.2} />
+        )}
+
+        {/* Anéis de Saturno melhorados */}
+        {planet.id === 'saturn' && <EnhancedSaturnRings radius={visualSize} />}
 
         {/* Anéis de Urano (verticais) */}
         {planet.id === 'uranus' && (

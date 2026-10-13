@@ -9,6 +9,7 @@ import { Planet } from './Planet';
 import { MoonSystem } from './Moon';
 import { Comet, comets } from './Comet';
 import { SolarWind } from './SolarEffects';
+import { KuiperBelt, JupiterTrojans } from './CelestialObjects';
 import { calculatePositionWithPrecession } from '../physics/orbitalMechanics';
 
 interface SolarSystemSceneProps {
@@ -130,6 +131,12 @@ export function SolarSystemScene({
 
       {/* Cintura de asteroides */}
       <AsteroidBelt />
+
+      {/* Cintura de Kuiper */}
+      <KuiperBelt />
+
+      {/* Tróianos de Júpiter */}
+      <JupiterTrojans />
 
       {/* Cometas */}
       {comets.map((comet) => (

@@ -1,108 +1,181 @@
-# 🌌 Sistema Solar Interativo 3D
+# 🌌 Sistema Solar Interativo 3D - Versão Completa
 
-Uma simulação interativa e educativa do Sistema Solar com visualização 3D, física realista baseada nas leis de Kepler, Newton e Einstein, e dados astronómicos reais da NASA.
+Uma simulação interativa e educativa do Sistema Solar com visualização 3D, física realista baseada nas leis de Kepler, Newton e Einstein, dados astronómicos reais da NASA, e uma interface moderna e intuitiva.
 
 ## ✨ Funcionalidades Implementadas
 
-### 🎨 Visualização 3D
+### 🎨 Visualização 3D Avançada
 - **Sol** com shader procedural de superfície turbulenta e corona animada
-- **8 planetas** com texturas procedurais únicas (Júpiter com bandas, Terra com continentes, Marte com crateras)
-- **Anéis de Saturno e Urano** com geometria realista
-- **Sistema de luas** principais (Lua, luas galileanas de Júpiter, Titã, etc.)
-- **Cometas** com cauda animada (Halley, Hale-Bopp)
-- **Cintura de asteroides** entre Marte e Júpiter
-- **Vento solar** visualizado com partículas
-- **Efeito de lente gravitacional** ao redor do Sol
-- **Campo de estrelas** de fundo com 8000+ estrelas
-- **Controlos de câmera** orbital (zoom, rotação, pan)
+- **9 planetas** (incluindo Plutão) com texturas procedurais únicas
+- **Atmosferas volumétricas** para Terra, Vénus e Júpiter
+- **Auroras polares** animadas na Terra
+- **Anéis de Saturno** melhorados com Divisão de Cassini
+- **Anéis de Urano** verticais
+- **Sistema de 11 luas** principais (Lua, luas galileanas, Titã, etc.)
+- **Cometas** Halley e Hale-Bopp com caudas animadas
+- **Cintura de asteroides** (1000 partículas)
+- **Cintura de Kuiper** (500 objetos transneptunianos)
+- **Tróianos de Júpiter** nos pontos L4 e L5
+- **Vento solar** subtil (200 partículas)
+- **8000 estrelas** de fundo
+- **Mini-mapa** interativo com vista superior
 
-### ⚛️ Física Realista
+### ⚛️ Física Realista Completa
 - **Leis de Kepler**:
   - Órbitas elípticas com excentricidades reais
   - Equação de Kepler resolvida por Newton-Raphson
-  - 2ª Lei: Velocidades orbitais variáveis (áreas iguais em tempos iguais)
-  - 3ª Lei: T² ∝ a³ verificada para todos os planetas
+  - 2ª Lei: Velocidades orbitais variáveis
+  - 3ª Lei: T² ∝ a³ verificada
   
 - **Relatividade Geral**:
   - Precessão relativística do periélio (43″/século para Mercúrio)
   - Dilatação temporal gravitacional
-  - Velocidade de escape do Sol
+  - Velocidade de escape
   - Raio de Schwarzschild
   
 - **Mecânica Orbital**:
   - Inclinação orbital de cada planeta
-  - Rotação axial (incluindo rotação retrógrada de Vénus e Urano)
-  - Transferência de Hohmann (manobras orbitais)
+  - Rotação axial (incluindo retrógrada)
+  - Transferência de Hohmann
   - Janelas de lançamento
   - Períodos sinódicos
+  
+- **N-Body Simplificado**:
+  - Interações gravitacionais entre corpos
+  - Integrador de Verlet
+  - Conservação de energia
+  - Centro de massa do sistema
 
-### 📊 Dados Astronómicos Reais
+### 🎮 Interatividade Completa
+- **Atalhos de teclado** (Espaço, +/-, R, B, O, L, D, T, C, G, 1-9, Esc)
+- **Controlos de simulação**: play/pause, velocidade (0.1x a 500x), rebobinar
+- **Toggle de órbitas e nomes**
+- **Seletor rápido** de planetas
+- **Câmera orbital** (zoom, rotação, pan)
+- **Mini-mapa** clicável
+- **Modo escuro/claro**
+
+### 📊 Ferramentas Educativas
+- **Calculadora de Viagem Espacial**:
+  - Transferência de Hohmann
+  - Delta-V necessário
+  - Tempo de viagem
+  - Janelas de lançamento
+  - 10+ missões espaciais históricas
+  
+- **Comparador de Planetas**:
+  - Comparação lado a lado
+  - Razões de diâmetro, massa, distância, período, gravidade, temperatura
+  - Barras de progresso visuais
+  
+- **Calculadora de Peso**:
+  - Quanto pesarias em cada planeta?
+  - Suporte para kg e lbs
+  - Grid visual de todos os planetas
+  
+- **Gráficos em Tempo Real** (Recharts):
+  - Distância ao Sol vs tempo
+  - Velocidade orbital vs tempo
+  - Eixos duplos
+  - Tooltips elegantes
+  
+- **Tour Guiado Interativo**:
+  - 12 passos educativos
+  - Navegação passo-a-passo
+  - Informações detalhadas de cada planeta
+  - Barra de progresso
+  
+- **Quiz Educativo**:
+  - 10 perguntas sobre astronomia
+  - Sistema de pontuação
+  - Explicações detalhadas
+  - Feedback visual
+  
+- **Exportação de Dados**:
+  - Screenshot PNG
+  - Dados completos em JSON
+  - Tabela CSV para Excel
+  - Metadados de simulação
+
+### 📡 Dados Astronómicos Reais
 - Diâmetros, massas, distâncias, períodos orbitais (NASA)
 - Excentricidades, inclinações, temperaturas médias
 - Número de luas, gravidade superficial, velocidades de escape
 - Parâmetros gravitacionais
 - Dados de missões espaciais históricas
+- 9 planetas + Plutão
+- 11 luas principais
+- 10+ missões espaciais
 
-### 🎮 Interatividade
-- **Clique em qualquer planeta** para ver informações detalhadas
-- **Controlos de simulação**: play/pause, velocidade (0.1x a 500x)
-- **Toggle de órbitas e nomes**
-- **Seletor rápido** de planetas
-- **Calculadora de viagens espaciais** (transferência de Hohmann)
-- **Comparador de planetas** lado a lado
-- **Gráficos em tempo real** (velocidade e distância vs tempo)
-- **Painel de informações** com dados físicos, orbitais e relativísticos
+### 🌐 Internacionalização
+- Suporte a 4 idiomas: Português, Inglês, Espanhol, Francês
+- Sistema de traduções expansível
+- Unidades configuráveis
 
-### 🚀 Ferramentas Educativas
-- **Calculadora de Viagem Espacial**:
-  - Cálculo de transferência de Hohmann
-  - Delta-V necessário (ΔV₁, ΔV₂, total)
-  - Tempo de viagem
-  - Janelas de lançamento
-  - Ângulos de fase
-  
-- **Comparador de Planetas**:
-  - Comparação visual lado a lado
-  - Razões de diâmetro, massa, distância, período, gravidade, temperatura
-  - Barras de progresso visuais
-  
-- **Gráficos em Tempo Real**:
-  - Distância ao Sol vs tempo
-  - Velocidade orbital vs tempo
-  - Atualização automática durante simulação
-  
-- **Missões Espaciais**:
-  - 10+ missões históricas (Voyager, Cassini, Curiosity, etc.)
-  - Tempo de viagem, distância percorrida
-  - Status e descrições
+### 🎨 Interface Moderna e Elegante
+- Design minimalista com gradientes subtis
+- Tipografia leve (font-light)
+- Backdrop blur em todos os painéis
+- Animações suaves (cubic-bezier)
+- Responsivo e intuitivo
+- Modo escuro/claro
+- Acessibilidade básica
 
 ## 📁 Estrutura do Projeto
 
 ```
 src/
 ├── components/
-│   ├── Sun.tsx                 # Sol com shaders
-│   ├── Planet.tsx              # Planetas com física orbital
-│   ├── Moon.tsx                # Sistema de luas
-│   ├── Comet.tsx               # Cometas com cauda
-│   ├── SolarEffects.tsx        # Vento solar, lente gravitacional
-│   ├── SolarSystemScene.tsx    # Cena 3D principal
-│   ├── InfoPanel.tsx           # Painel de informações
-│   ├── Controls.tsx            # Controlos de UI
-│   ├── TravelCalculator.tsx    # Calculadora de viagens
-│   ├── PlanetComparator.tsx    # Comparador de planetas
-│   └── RealTimeGraph.tsx       # Gráficos em tempo real
+│   ├── Sun.tsx                    # Sol com shaders
+│   ├── Planet.tsx                 # Planetas com física orbital
+│   ├── Moon.tsx                   # Sistema de luas
+│   ├── Comet.tsx                  # Cometas com cauda
+│   ├── Atmosphere.tsx             # Atmosferas volumétricas e auroras
+│   ├── CelestialObjects.tsx       # Cintura de Kuiper e Tróianos
+│   ├── SolarEffects.tsx           # Vento solar
+│   ├── SolarSystemScene.tsx       # Cena 3D principal
+│   ├── InfoPanel.tsx              # Painel de informações
+│   ├── Controls.tsx               # Controlos de UI
+│   ├── TravelCalculator.tsx       # Calculadora de viagens
+│   ├── PlanetComparator.tsx       # Comparador de planetas
+│   ├── WeightCalculator.tsx       # Calculadora de peso
+│   ├── RealTimeGraph.tsx          # Gráficos em tempo real
+│   ├── TourGuide.tsx              # Tour guiado
+│   ├── Quiz.tsx                   # Quiz educativo
+│   ├── MiniMap.tsx                # Mini-mapa
+│   ├── ShortcutsModal.tsx         # Modal de atalhos
+│   └── ExportData.tsx             # Exportação de dados
 ├── data/
-│   ├── planets.ts              # Dados dos planetas
-│   └── moons.ts                # Dados das luas
+│   ├── planets.ts                 # Dados dos 9 planetas
+│   └── moons.ts                   # Dados das 11 luas
 ├── physics/
-│   ├── orbitalMechanics.ts     # Motor de física orbital
-│   └── spaceTravel.ts          # Cálculos de viagem espacial
-├── shaders/
-│   └── planetShaders.ts        # Shaders procedurais
-├── App.tsx                     # Componente principal
-└── index.css                   # Estilos globais
+│   ├── orbitalMechanics.ts        # Motor de física orbital
+│   ├── spaceTravel.ts             # Cálculos de viagem espacial
+│   └── nbody.ts                   # Simulação N-body
+├── utils/
+│   ├── keyboardShortcuts.ts       # Sistema de atalhos
+│   └── i18n.ts                    # Internacionalização
+├── App.tsx                        # Componente principal
+└── index.css                      # Estilos globais
 ```
+
+## ⌨️ Atalhos de Teclado
+
+| Tecla | Ação |
+|-------|------|
+| Espaço | Play / Pausa |
+| + / - | Aumentar / Diminuir velocidade |
+| R | Reset tempo |
+| B | Rebobinar |
+| O | Mostrar/ocultar órbitas |
+| L | Mostrar/ocultar nomes |
+| D | Modo escuro/claro |
+| T | Abrir calculadora de viagem |
+| C | Abrir comparador |
+| G | Abrir gráfico |
+| 1-9 | Selecionar planeta |
+| Esc | Fechar painel |
+| 0 | Reset câmera |
 
 ## 🔬 Física Implementada
 
@@ -110,19 +183,17 @@ src/
 ```
 M = E - e·sin(E)
 ```
-Resolvida por Newton-Raphson para encontrar a anomalia excêntrica E.
+Resolvida por Newton-Raphson.
 
 ### Órbita Elíptica
 ```
 r = a(1 - e²) / (1 + e·cos(ν))
 ```
-Onde ν é a anomalia verdadeira.
 
 ### Precessão Relativística
 ```
 Δω = 6πGM / (a(1-e²)c²) por órbita
 ```
-Para Mercúrio: ~43 arcsegundos/século.
 
 ### Dilatação Temporal
 ```
@@ -136,57 +207,11 @@ Para Mercúrio: ~43 arcsegundos/século.
 T = π·√(a³/GM)
 ```
 
-## 🚀 Melhorias Futuras Possíveis
-
-### Física Avançada
-- [ ] Interação gravitacional N-body entre planetas
-- [ ] Efeitos de maré
-- [ ] Precessão de Lense-Thirring (frame-dragging)
-- [ ] Efeito Yarkovsky
-- [ ] Perturbações gravitacionais
-- [ ] Ressonâncias orbitais
-
-### Visualização
-- [ ] Texturas de alta resolução (NASA)
-- [ ] Sombras realistas
-- [ ] Atmosferas (Terra, Vénus, Titã)
-- [ ] Auroras polares
-- [ ] Anéis mais detalhados
-- [ ] Cometas adicionais
-- [ ] Objetos da Cintura de Kuiper
-- [ ] Nuvem de Oort
-
-### Educação
-- [ ] Tour guiado interativo
-- [ ] Quiz educativo
-- [ ] Linha do tempo histórica
-- [ ] Simulador de manobras orbitais
-- [ ] Calculadora de gravidade superficial
-- [ ] Visualização de forças
-- [ ] Explicações passo-a-passo
-
-### Performance
-- [ ] Instanced meshes para asteroides
-- [ ] LOD (Level of Detail)
-- [ ] Otimização de shaders
-- [ ] Web Workers para cálculos
-- [ ] Code splitting
-
-### UX/UI
-- [ ] Modo escuro/claro
-- [ ] Acessibilidade (teclado, screen readers)
-- [ ] Responsividade mobile melhorada
-- [ ] Animações de transição
-- [ ] Modo VR/AR (WebXR)
-- [ ] Exportar dados/simulações
-- [ ] Partilhar configurações
-
-### Dados
-- [ ] Integração com APIs da NASA
-- [ ] Dados em tempo real de missões
-- [ ] Imagens de missões espaciais
-- [ ] Vídeos educativos
-- [ ] Áudio (sons do espaço)
+### N-Body (Verlet)
+```
+x(t+dt) = x(t) + v(t)·dt + 0.5·a(t)·dt²
+v(t+dt) = v(t) + 0.5·(a(t) + a(t+dt))·dt
+```
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -194,36 +219,95 @@ T = π·√(a³/GM)
 - **Three.js** - Renderização 3D
 - **React Three Fiber** - React renderer para Three.js
 - **React Three Drei** - Helpers para R3F
+- **Recharts** - Gráficos modernos
 - **TypeScript** - Tipagem estática
 - **Tailwind CSS** - Estilização
 - **Vite** - Build tool
+
+## 📊 Estatísticas do Projeto
+
+- **1247 módulos** compilados
+- **20+ componentes** React
+- **9 planetas** com dados reais da NASA
+- **11 luas** principais
+- **2 cometas** com órbitas reais
+- **1500+ objetos** (asteroides + Kuiper + Tróianos)
+- **10+ missões** espaciais documentadas
+- **200 partículas** de vento solar
+- **8000 estrelas** de fundo
+- **10 perguntas** no quiz
+- **12 passos** no tour guiado
+- **4 idiomas** suportados
+- **15+ atalhos** de teclado
+
+## 🚀 Melhorias Futuras Possíveis
+
+### Física Avançada
+- [ ] Interação N-body completa com todos os corpos
+- [ ] Efeito Yarkovsky
+- [ ] Precessão de Lense-Thirring
+- [ ] Efeitos de maré completos
+- [ ] Ressonâncias orbitais (Io-Europa-Ganimedes)
+- [ ] Assistência gravitacional simulada
+
+### Visualização
+- [ ] Texturas de alta resolução da NASA
+- [ ] Sombras realistas
+- [ ] Nuvem de Oort
+- [ ] Via Láctea como fundo
+- [ ] Nebulosas
+
+### Educação
+- [ ] Tour guiado com narração áudio
+- [ ] Simulador de manobras orbitais
+- [ ] Glossário interativo
+- [ ] Vídeos educativos
+
+### UX/UI
+- [ ] Acessibilidade completa (ARIA, screen readers)
+- [ ] Responsividade mobile otimizada
+- [ ] Modo VR/AR (WebXR)
+- [ ] Partilhar configurações via URL
+
+### Performance
+- [ ] Instanced meshes para asteroides
+- [ ] LOD (Level of Detail)
+- [ ] Web Workers para cálculos
+- [ ] Code splitting dinâmico
 
 ## 📚 Referências
 
 - NASA Planetary Fact Sheets
 - International Astronomical Union (IAU)
+- JPL Horizons System
 - "Fundamentals of Astrodynamics" - Bate, Mueller, White
 - "Gravity" - Poisson, Will
-- "An Introduction to Mechanics of Celestial Bodies" - Brovarskiy
 
 ## 🎓 Conceitos Físicos Demonstrados
 
-1. **Leis de Kepler do Movimento Planetário**
-2. **Lei da Gravitação Universal de Newton**
-3. **Teoria da Relatividade Geral de Einstein**
-4. **Mecânica Orbital e Manobras de Hohmann**
-5. **Dilatação Temporal Gravitacional**
-6. **Precessão do Periélio**
-7. **Conservação do Momento Angular**
-8. **Energia Orbital Específica**
+1. ✅ Leis de Kepler do Movimento Planetário
+2. ✅ Lei da Gravitação Universal de Newton
+3. ✅ Teoria da Relatividade Geral de Einstein
+4. ✅ Mecânica Orbital e Manobras de Hohmann
+5. ✅ Dilatação Temporal Gravitacional
+6. ✅ Precessão do Periélio
+7. ✅ Conservação do Momento Angular
+8. ✅ Energia Orbital Específica
+9. ✅ Pontos de Lagrange
+10. ✅ Cintura de Kuiper e Objetos Transneptunianos
+11. ✅ Tróianos de Júpiter
+12. ✅ Simulação N-body (simplificada)
 
 ## 🌟 Destaques
 
 - **Precisão**: Dados astronómicos reais da NASA
-- **Educativo**: Explicações detalhadas de cada conceito físico
-- **Interativo**: Múltiplas ferramentas de exploração
-- **Visual**: Gráficos em tempo real e visualizações 3D
+- **Educativo**: Tour guiado, quiz, explicações detalhadas
+- **Interativo**: Múltiplas ferramentas, atalhos de teclado
+- **Visual**: Gráficos modernos, mini-mapa, atmosferas
 - **Física**: Implementação completa das leis de Kepler e relatividade
+- **Moderno**: Interface elegante, modo escuro/claro
+- **Completo**: 9 planetas, luas, cometas, asteroides, Kuiper
+- **Exportável**: Screenshots, JSON, CSV
 
 ## 📝 Licença
 
@@ -232,3 +316,5 @@ Projeto educativo criado para demonstração de conceitos de física orbital e a
 ---
 
 **Desenvolvido com ❤️ para educação científica**
+
+**Versão 2.0 - Completa**

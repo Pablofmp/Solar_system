@@ -12,6 +12,7 @@ interface ControlsProps {
   selectedPlanetId: string | null;
   onPlanetSelect: (id: string | null) => void;
   elapsedTime: number;
+  darkMode?: boolean;
 }
 
 export function Controls({
