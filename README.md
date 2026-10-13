@@ -1,6 +1,55 @@
 # 🌌 Sistema Solar Interativo 3D - Versão Completa
 
+<div align="center">
+
+![Version](https://img.shields.io/badge/version-2.0.0-blue)
+![React](https://img.shields.io/badge/React-18.3.1-61dafb)
+![Three.js](https://img.shields.io/badge/Three.js-0.160.0-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Stars](https://img.shields.io/badge/⭐-Stars-yellow)
+
+**Uma simulação interativa e educativa do Sistema Solar com física realista**
+
+[Instalação](#-instalação) • [Demo](#-demo) • [Funcionalidades](#-funcionalidades) • [Física](#-física-implementada) • [Contribuir](#-contribuir)
+
+</div>
+
+---
+
 Uma simulação interativa e educativa do Sistema Solar com visualização 3D, física realista baseada nas leis de Kepler, Newton e Einstein, dados astronómicos reais da NASA, e uma interface moderna e intuitiva.
+
+## 🚀 Instalação
+
+```bash
+# Clonar o repositório
+git clone https://github.com/USERNAME/Solar-System_(sistema-solar).git
+cd Solar-System_\(sistema-solar\)
+
+# Instalar dependências
+npm install
+
+# Executar em modo desenvolvimento
+npm run dev
+
+# Build para produção
+npm run build
+```
+
+## 🎮 Demo
+
+Acede à aplicação em `http://localhost:5173` após executar `npm run dev`.
+
+### Atalhos de Teclado
+- **Espaço**: Play / Pausa
+- **+/-**: Aumentar / Diminuir velocidade
+- **R**: Reset tempo
+- **B**: Rebobinar
+- **O**: Mostrar/ocultar órbitas
+- **L**: Mostrar/ocultar nomes
+- **D**: Modo escuro/claro
+- **1-9**: Selecionar planeta
+- **Esc**: Fechar painel
 
 ## ✨ Funcionalidades Implementadas
 
@@ -309,12 +358,45 @@ v(t+dt) = v(t) + 0.5·(a(t) + a(t+dt))·dt
 - **Completo**: 9 planetas, luas, cometas, asteroides, Kuiper
 - **Exportável**: Screenshots, JSON, CSV
 
-## 📝 Licença
+## 🤝 Contribuir
 
-Projeto educativo criado para demonstração de conceitos de física orbital e astronomia.
+Contribuições são bem-vindas! Consulta o [Guia de Contribuição](CONTRIBUTING.md) para detalhes.
+
+### Áreas Prioritárias
+- 🎨 Texturas de alta resolução da NASA
+- 🔬 Interação N-body completa
+- 🎓 Mais conteúdo educativo
+- 🌐 Traduções adicionais
+- ⚡ Otimizações de performance
+
+## 📄 Licença
+
+Este projeto está licenciado sob a [MIT License](LICENSE).
+
+## 📚 Referências
+
+- [NASA Planetary Fact Sheets](https://nssdc.gsfc.nasa.gov/planetary/factsheet/)
+- [International Astronomical Union](https://www.iau.org/)
+- [JPL Horizons System](https://ssd.jpl.nasa.gov/horizons/)
+- "Fundamentals of Astrodynamics" - Bate, Mueller, White
+- "Gravity" - Poisson, Will
+
+## 📞 Contacto
+
+- 📧 Abre uma [Issue](../../issues) para bugs
+- 💬 Participa nas [Discussions](../../discussions)
+- 🔧 Submete um [Pull Request](../../pulls)
 
 ---
+
+<div align="center">
 
 **Desenvolvido com ❤️ para educação científica**
 
 **Versão 2.0 - Completa**
+
+⭐ Se gostaste do projeto, considera dar uma estrela!
+
+[⬆ Voltar ao topo](#-sistema-solar-interativo-3d---versão-completa)
+
+</div>
