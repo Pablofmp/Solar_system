@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { PlanetData } from '../data/planets';
 
 interface RealTimeGraphProps {
@@ -8,140 +8,142 @@ interface RealTimeGraphProps {
     distance: number;
     velocity: number;
   }[];
+  onClose: () => void;
 }
 
-export function RealTimeGraph({ planet, data }: RealTimeGraphProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || data.length === 0) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const width = canvas.width;
-    const height = canvas.height;
-    const padding = 40;
-
-    // Limpar canvas
-    ctx.fillStyle = '#0a0a2e';
-    ctx.fillRect(0, 0, width, height);
-
-    // Calcular escalas
-    const times = data.map((d) => d.time);
-    const distances = data.map((d) => d.distance);
-    const velocities = data.map((d) => d.velocity);
-
-    const minTime = Math.min(...times);
-    const maxTime = Math.max(...times);
-    const minDist = Math.min(...distances) * 0.95;
-    const maxDist = Math.max(...distances) * 1.05;
-    const minVel = Math.min(...velocities) * 0.95;
-    const maxVel = Math.max(...velocities) * 1.05;
-
-    // Desenhar grid
-    ctx.strokeStyle = '#1a1a4a';
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= 5; i++) {
-      const y = padding + (i * (height - 2 * padding)) / 5;
-      ctx.beginPath();
-      ctx.moveTo(padding, y);
-      ctx.lineTo(width - padding, y);
-      ctx.stroke();
-    }
-
-    // Eixos
-    ctx.strokeStyle = '#4a4a8a';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(padding, padding);
-    ctx.lineTo(padding, height - padding);
-    ctx.lineTo(width - padding, height - padding);
-    ctx.stroke();
-
-    // Labels dos eixos
-    ctx.fillStyle = '#888';
-    ctx.font = '10px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('Tempo (dias)', width / 2, height - 10);
-    
-    ctx.save();
-    ctx.translate(15, height / 2);
-    ctx.rotate(-Math.PI / 2);
-    ctx.fillText('Distância / Velocidade', 0, 0);
-    ctx.restore();
-
-    // Função para converter dados para coordenadas do canvas
-    const toCanvasX = (time: number) => {
-      return padding + ((time - minTime) / (maxTime - minTime)) * (width - 2 * padding);
-    };
-    const toCanvasY = (value: number, min: number, max: number) => {
-      return height - padding - ((value - min) / (max - min)) * (height - 2 * padding);
-    };
-
-    // Desenhar distância (linha azul)
-    ctx.strokeStyle = '#4da6ff';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    data.forEach((d, i) => {
-      const x = toCanvasX(d.time);
-      const y = toCanvasY(d.distance, minDist, maxDist);
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-
-    // Desenhar velocidade (linha laranja)
-    ctx.strokeStyle = '#ff8844';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    data.forEach((d, i) => {
-      const x = toCanvasX(d.time);
-      const y = toCanvasY(d.velocity, minVel, maxVel);
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-
-    // Legenda
-    ctx.fillStyle = '#4da6ff';
-    ctx.fillRect(width - 120, 10, 10, 10);
-    ctx.fillStyle = '#fff';
-    ctx.textAlign = 'left';
-    ctx.fillText('Distância (M km)', width - 105, 19);
-
-    ctx.fillStyle = '#ff8844';
-    ctx.fillRect(width - 120, 25, 10, 10);
-    ctx.fillStyle = '#fff';
-    ctx.fillText('Velocidade (km/s)', width - 105, 34);
-
-    // Valores atuais
-    if (data.length > 0) {
-      const current = data[data.length - 1];
-      ctx.fillStyle = '#4da6ff';
-      ctx.font = 'bold 11px Arial';
-      ctx.textAlign = 'left';
-      ctx.fillText(`${current.distance.toFixed(1)} M km`, padding + 5, padding + 15);
-      
-      ctx.fillStyle = '#ff8844';
-      ctx.fillText(`${current.velocity.toFixed(2)} km/s`, padding + 5, padding + 30);
-    }
-  }, [data, planet]);
+export function RealTimeGraph({ planet, data, onClose }: RealTimeGraphProps) {
+  // Formatar tempo para exibição
+  const formatTime = (time: number) => {
+    if (time < 365) return `${time.toFixed(0)}d`;
+    return `${(time / 365.25).toFixed(1)}a`;
+  };
 
   return (
-    <div className="bg-gray-900/50 rounded-xl p-4 border border-gray-800/50">
-      <h3 className="text-sm font-semibold text-gray-300 mb-2">
-        📊 Dados em Tempo Real - {planet.namePT}
-      </h3>
-      <canvas
-        ref={canvasRef}
-        width={500}
-        height={250}
-        className="w-full rounded-lg"
-      />
-      <p className="text-[10px] text-gray-500 mt-2 text-center">
-        Gráfico mostra a variação da distância ao Sol e velocidade orbital ao longo do tempo
+    <div className="fixed bottom-20 left-4 z-40 bg-gray-950/95 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-5 w-[540px] shadow-2xl">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+          <span className="text-2xl">📊</span>
+          Dados em Tempo Real
+        </h3>
+        <button
+          onClick={onClose}
+          className="w-7 h-7 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-700 transition-all"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div className="mb-3">
+        <div className="flex items-center gap-2 mb-2">
+          <div
+            className="w-8 h-8 rounded-full"
+            style={{
+              background: `radial-gradient(circle at 35% 35%, ${planet.color}, ${planet.emissiveColor})`,
+              boxShadow: `0 0 10px ${planet.color}44`,
+            }}
+          />
+          <div>
+            <p className="text-sm font-medium" style={{ color: planet.color }}>
+              {planet.namePT}
+            </p>
+            <p className="text-xs text-gray-500">{planet.name}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Gráfico moderno */}
+      <div className="bg-gray-900/50 rounded-xl p-4 border border-gray-800/30">
+        <ResponsiveContainer width="100%" height={280}>
+          <LineChart data={data}>
+            <defs>
+              <linearGradient id="colorDistance" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#4da6ff" stopOpacity={0.8}/>
+                <stop offset="95%" stopColor="#4da6ff" stopOpacity={0.1}/>
+              </linearGradient>
+              <linearGradient id="colorVelocity" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#ff8844" stopOpacity={0.8}/>
+                <stop offset="95%" stopColor="#ff8844" stopOpacity={0.1}/>
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="#1a1a4a" opacity={0.3} />
+            <XAxis 
+              dataKey="time" 
+              tickFormatter={formatTime}
+              stroke="#666"
+              fontSize={11}
+              label={{ value: 'Tempo', position: 'insideBottom', offset: -5, fill: '#888', fontSize: 11 }}
+            />
+            <YAxis 
+              yAxisId="left"
+              stroke="#4da6ff"
+              fontSize={11}
+              label={{ value: 'Distância (M km)', angle: -90, position: 'insideLeft', fill: '#4da6ff', fontSize: 11 }}
+            />
+            <YAxis 
+              yAxisId="right" 
+              orientation="right"
+              stroke="#ff8844"
+              fontSize={11}
+              label={{ value: 'Velocidade (km/s)', angle: 90, position: 'insideRight', fill: '#ff8844', fontSize: 11 }}
+            />
+            <Tooltip 
+              contentStyle={{
+                backgroundColor: '#1a1a2e',
+                border: '1px solid #333',
+                borderRadius: '8px',
+                fontSize: '12px',
+              }}
+              labelFormatter={formatTime}
+            />
+            <Legend 
+              wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
+            />
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="distance"
+              stroke="#4da6ff"
+              strokeWidth={2}
+              dot={false}
+              name="Distância ao Sol (M km)"
+              activeDot={{ r: 4, fill: '#4da6ff' }}
+            />
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="velocity"
+              stroke="#ff8844"
+              strokeWidth={2}
+              dot={false}
+              name="Velocidade Orbital (km/s)"
+              activeDot={{ r: 4, fill: '#ff8844' }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Estatísticas atuais */}
+      {data.length > 0 && (
+        <div className="grid grid-cols-2 gap-3 mt-4">
+          <div className="bg-blue-950/30 border border-blue-800/30 rounded-lg p-3">
+            <p className="text-xs text-blue-400 mb-1">Distância Atual</p>
+            <p className="text-lg font-bold text-blue-300">
+              {data[data.length - 1].distance.toFixed(1)}
+              <span className="text-xs text-blue-400 ml-1">M km</span>
+            </p>
+          </div>
+          <div className="bg-orange-950/30 border border-orange-800/30 rounded-lg p-3">
+            <p className="text-xs text-orange-400 mb-1">Velocidade Atual</p>
+            <p className="text-lg font-bold text-orange-300">
+              {data[data.length - 1].velocity.toFixed(2)}
+              <span className="text-xs text-orange-400 ml-1">km/s</span>
+            </p>
+          </div>
+        </div>
+      )}
+
+      <p className="text-[10px] text-gray-500 mt-3 text-center">
+        Gráfico mostra a variação da distância e velocidade orbital ao longo do tempo
       </p>
     </div>
   );

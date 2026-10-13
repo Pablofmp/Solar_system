@@ -10,7 +10,6 @@ import { RealTimeGraph } from './components/RealTimeGraph';
 import { planets } from './data/planets';
 import { calculatePositionWithPrecession, orbitalVelocity } from './physics/orbitalMechanics';
 
-// Componente interno que atualiza o tempo de simulação
 function TimeUpdater({
   isPlaying,
   speed,
@@ -48,14 +47,12 @@ function App() {
     velocity: number;
   } | null>(null);
   
-  // Dados para gráfico em tempo real
   const [graphData, setGraphData] = useState<{ time: number; distance: number; velocity: number }[]>([]);
 
   const selectedPlanet = selectedPlanetId
     ? planets.find((p) => p.id === selectedPlanetId) || null
     : null;
 
-  // Atualizar dados do planeta selecionado
   useEffect(() => {
     if (selectedPlanet) {
       const pos = calculatePositionWithPrecession(selectedPlanet, simTime);
@@ -63,11 +60,9 @@ function App() {
       const velocity = orbitalVelocity(distance * 1e6, selectedPlanet.distanceFromSun * 1e6);
       setCurrentPlanetData({ distance, velocity });
 
-      // Adicionar dados ao gráfico
       if (showGraph) {
         setGraphData((prev) => {
           const newData = [...prev, { time: simTime, distance, velocity }];
-          // Manter apenas os últimos 100 pontos
           if (newData.length > 100) newData.shift();
           return newData;
         });
@@ -75,7 +70,6 @@ function App() {
     }
   }, [selectedPlanet, simTime, showGraph]);
 
-  // Limpar dados do gráfico quando mudar de planeta
   useEffect(() => {
     setGraphData([]);
   }, [selectedPlanetId]);
@@ -95,47 +89,52 @@ function App() {
     setShowSunInfo(false);
   }, []);
 
+  const formatTime = (days: number): string => {
+    if (days < 1) return `${(days * 24).toFixed(1)}h`;
+    if (days < 365) return `${days.toFixed(0)} dias`;
+    const years = days / 365.25;
+    if (years < 100) return `${years.toFixed(1)} anos`;
+    return `${(years / 100).toFixed(1)} séculos`;
+  };
+
   return (
     <div className="w-full h-screen bg-black overflow-hidden relative">
-      {/* Header */}
-      <header className="absolute top-0 left-0 right-0 z-30 p-4 pointer-events-none">
-        <div className="max-w-7xl mx-auto flex items-start justify-between">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-200 via-orange-300 to-yellow-200 bg-clip-text text-transparent">
-              🌌 Sistema Solar Interativo
-            </h1>
-            <p className="text-gray-400 text-xs md:text-sm mt-1 max-w-lg">
-              Simulação 3D com mecânica orbital de Kepler, precessão relativística e dados astronómicos reais da NASA
-            </p>
-          </div>
-          <div className="hidden md:flex flex-col items-end gap-2">
-            <div className="bg-gray-900/80 backdrop-blur rounded-lg px-3 py-1.5 border border-gray-700/30">
-              <p className="text-[10px] text-gray-500 uppercase tracking-wider">Leis Físicas</p>
-              <p className="text-xs text-gray-300">Kepler • Newton • Einstein</p>
+      {/* Header elegante */}
+      <header className="absolute top-0 left-0 right-0 z-30 pointer-events-none">
+        <div className="bg-gradient-to-b from-black/80 to-transparent pt-5 pb-10 px-6">
+          <div className="max-w-7xl mx-auto flex items-start justify-between">
+            <div>
+              <h1 className="text-3xl font-light tracking-wide text-white/90">
+                Sistema Solar
+                <span className="text-orange-400 font-normal ml-2">Interativo</span>
+              </h1>
+              <p className="text-gray-400 text-sm mt-1 font-light">
+                Explore o nosso sistema solar com física realista
+              </p>
             </div>
+            
             {/* Botões de ferramentas */}
             <div className="flex gap-2 pointer-events-auto">
-              <button
+              <ToolButton 
+                icon="🚀" 
+                label="Viagem" 
                 onClick={() => setShowTravelCalc(true)}
-                className="bg-blue-600/80 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-lg transition-all backdrop-blur"
-              >
-                🚀 Viagem Espacial
-              </button>
-              <button
+                color="blue"
+              />
+              <ToolButton 
+                icon="⚖️" 
+                label="Comparar" 
                 onClick={() => setShowComparator(true)}
-                className="bg-purple-600/80 hover:bg-purple-500 text-white text-xs px-3 py-1.5 rounded-lg transition-all backdrop-blur"
-              >
-                ⚖️ Comparar
-              </button>
+                color="purple"
+              />
               {selectedPlanet && (
-                <button
+                <ToolButton 
+                  icon="📊" 
+                  label="Gráfico" 
                   onClick={() => setShowGraph(!showGraph)}
-                  className={`text-xs px-3 py-1.5 rounded-lg transition-all backdrop-blur ${
-                    showGraph ? 'bg-green-500 text-white' : 'bg-gray-700/80 text-gray-300 hover:bg-gray-600'
-                  }`}
-                >
-                  📊 Gráfico
-                </button>
+                  color="green"
+                  active={showGraph}
+                />
               )}
             </div>
           </div>
@@ -150,7 +149,7 @@ function App() {
           near: 0.1,
           far: 1000,
         }}
-        style={{ background: '#000005' }}
+        style={{ background: '#000008' }}
       >
         <TimeUpdater
           isPlaying={isPlaying}
@@ -188,27 +187,45 @@ function App() {
       )}
       {showSunInfo && <SunInfoPanel onClose={handleCloseInfo} />}
 
-      {/* Gráfico em tempo real */}
+      {/* Gráfico moderno */}
       {showGraph && selectedPlanet && graphData.length > 0 && (
-        <div className="fixed bottom-20 left-4 z-40 w-[520px]">
-          <RealTimeGraph planet={selectedPlanet} data={graphData} />
-        </div>
+        <RealTimeGraph 
+          planet={selectedPlanet} 
+          data={graphData}
+          onClose={() => setShowGraph(false)}
+        />
       )}
 
-      {/* Controlos */}
-      <Controls
-        isPlaying={isPlaying}
-        onTogglePlay={() => setIsPlaying(!isPlaying)}
-        speed={speed}
-        onSpeedChange={setSpeed}
-        showOrbits={showOrbits}
-        onToggleOrbits={() => setShowOrbits(!showOrbits)}
-        showLabels={showLabels}
-        onToggleLabels={() => setShowLabels(!showLabels)}
-        selectedPlanetId={selectedPlanetId}
-        onPlanetSelect={handlePlanetClick}
-        elapsedTime={simTime}
-      />
+      {/* Controlos elegantes */}
+      <div className="fixed bottom-0 left-0 right-0 z-40">
+        <div className="bg-gradient-to-t from-black/90 to-transparent pt-10 pb-4 px-6">
+          <div className="max-w-5xl mx-auto">
+            {/* Indicador de tempo */}
+            <div className="flex items-center justify-center mb-3">
+              <div className="bg-gray-900/80 backdrop-blur rounded-full px-4 py-1.5 border border-gray-700/30 flex items-center gap-3">
+                <div className={`w-2 h-2 rounded-full ${isPlaying ? 'bg-green-400 animate-pulse' : 'bg-yellow-400'}`} />
+                <span className="text-sm text-gray-300 font-light">
+                  {formatTime(simTime)}
+                </span>
+              </div>
+            </div>
+
+            <Controls
+              isPlaying={isPlaying}
+              onTogglePlay={() => setIsPlaying(!isPlaying)}
+              speed={speed}
+              onSpeedChange={setSpeed}
+              showOrbits={showOrbits}
+              onToggleOrbits={() => setShowOrbits(!showOrbits)}
+              showLabels={showLabels}
+              onToggleLabels={() => setShowLabels(!showLabels)}
+              selectedPlanetId={selectedPlanetId}
+              onPlanetSelect={handlePlanetClick}
+              elapsedTime={simTime}
+            />
+          </div>
+        </div>
+      </div>
 
       {/* Calculadora de Viagem */}
       {showTravelCalc && <TravelCalculator onClose={() => setShowTravelCalc(false)} />}
@@ -216,30 +233,32 @@ function App() {
       {/* Comparador de Planetas */}
       {showComparator && <PlanetComparator onClose={() => setShowComparator(false)} />}
 
-      {/* Indicador de física */}
-      <div className="fixed top-4 left-4 z-30 space-y-2 pointer-events-none">
-        <div className="bg-gray-900/70 backdrop-blur rounded-lg px-3 py-2 border border-gray-700/30">
-          <div className="flex items-center gap-2">
-            <div className={`w-2 h-2 rounded-full ${isPlaying ? 'bg-green-400 animate-pulse' : 'bg-yellow-400'}`} />
-            <span className="text-xs text-gray-300">
-              {isPlaying ? `${speed}x` : 'Pausado'}
-            </span>
+      {/* Indicador de planeta selecionado */}
+      {selectedPlanet && (
+        <div className="fixed top-24 left-6 z-30 pointer-events-none">
+          <div className="bg-gray-900/70 backdrop-blur rounded-xl px-4 py-3 border border-gray-700/30">
+            <div className="flex items-center gap-2">
+              <div
+                className="w-6 h-6 rounded-full"
+                style={{
+                  background: `radial-gradient(circle at 35% 35%, ${selectedPlanet.color}, ${selectedPlanet.emissiveColor})`,
+                  boxShadow: `0 0 8px ${selectedPlanet.color}44`,
+                }}
+              />
+              <div>
+                <p className="text-sm font-medium" style={{ color: selectedPlanet.color }}>
+                  {selectedPlanet.namePT}
+                </p>
+                <div className="flex gap-3 text-[10px] text-gray-500">
+                  <span>e = {selectedPlanet.eccentricity}</span>
+                  <span>T = {selectedPlanet.orbitalPeriod}d</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="text-[10px] text-gray-500 mt-1">
-            t = {simTime < 365 ? `${simTime.toFixed(0)}d` : `${(simTime / 365.25).toFixed(1)}a`}
-          </p>
         </div>
-        
-        {selectedPlanet && (
-          <div className="bg-gray-900/70 backdrop-blur rounded-lg px-3 py-2 border border-gray-700/30">
-            <p className="text-[10px] text-gray-500">e = {selectedPlanet.eccentricity}</p>
-            <p className="text-[10px] text-gray-500">T = {selectedPlanet.orbitalPeriod}d</p>
-            <p className="text-[10px] text-gray-500">i = {selectedPlanet.orbitalInclination}°</p>
-          </div>
-        )}
-      </div>
+      )}
 
-      {/* CSS Animations */}
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(-10px) scale(0.98); }
@@ -250,6 +269,36 @@ function App() {
         }
       `}</style>
     </div>
+  );
+}
+
+function ToolButton({ 
+  icon, 
+  label, 
+  onClick, 
+  color, 
+  active = false 
+}: { 
+  icon: string; 
+  label: string; 
+  onClick: () => void;
+  color: string;
+  active?: boolean;
+}) {
+  const colorClasses = {
+    blue: active ? 'bg-blue-500/30 border-blue-500/50 text-blue-300' : 'bg-gray-800/50 border-gray-700/30 text-gray-300 hover:bg-blue-500/20 hover:border-blue-500/30',
+    purple: active ? 'bg-purple-500/30 border-purple-500/50 text-purple-300' : 'bg-gray-800/50 border-gray-700/30 text-gray-300 hover:bg-purple-500/20 hover:border-purple-500/30',
+    green: active ? 'bg-green-500/30 border-green-500/50 text-green-300' : 'bg-gray-800/50 border-gray-700/30 text-gray-300 hover:bg-green-500/20 hover:border-green-500/30',
+  };
+
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center gap-2 px-4 py-2 rounded-xl border backdrop-blur transition-all text-sm ${colorClasses[color as keyof typeof colorClasses]}`}
+    >
+      <span className="text-base">{icon}</span>
+      <span className="font-light">{label}</span>
+    </button>
   );
 }
 

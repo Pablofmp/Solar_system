@@ -8,7 +8,7 @@ import { Sun } from './Sun';
 import { Planet } from './Planet';
 import { MoonSystem } from './Moon';
 import { Comet, comets } from './Comet';
-import { SolarWind, GravitationalLensing } from './SolarEffects';
+import { SolarWind } from './SolarEffects';
 import { calculatePositionWithPrecession } from '../physics/orbitalMechanics';
 
 interface SolarSystemSceneProps {
@@ -125,9 +125,8 @@ export function SolarSystemScene({
       {/* Sol */}
       <Sun onClick={() => onPlanetClick(null)} />
 
-      {/* Efeitos solares */}
+      {/* Vento solar subtil */}
       <SolarWind />
-      <GravitationalLensing />
 
       {/* Cintura de asteroides */}
       <AsteroidBelt />
