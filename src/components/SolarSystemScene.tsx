@@ -3,8 +3,13 @@ import { useFrame } from '@react-three/fiber';
 import { Stars } from '@react-three/drei';
 import * as THREE from 'three';
 import { planets } from '../data/planets';
+import { moons } from '../data/moons';
 import { Sun } from './Sun';
 import { Planet } from './Planet';
+import { MoonSystem } from './Moon';
+import { Comet, comets } from './Comet';
+import { SolarWind, GravitationalLensing } from './SolarEffects';
+import { calculatePositionWithPrecession } from '../physics/orbitalMechanics';
 
 interface SolarSystemSceneProps {
   time: number;
@@ -19,9 +24,8 @@ function AsteroidBelt() {
   const asteroidsRef = useRef<THREE.Points>(null);
   
   const asteroidData = useMemo(() => {
-    const count = 800;
+    const count = 1000;
     const positions = new Float32Array(count * 3);
-    const sizes = new Float32Array(count);
     
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
@@ -31,10 +35,9 @@ function AsteroidBelt() {
       positions[i * 3] = Math.cos(angle) * radius;
       positions[i * 3 + 1] = height;
       positions[i * 3 + 2] = Math.sin(angle) * radius;
-      sizes[i] = Math.random() * 0.08 + 0.02;
     }
     
-    return { positions, sizes, count };
+    return { positions, count };
   }, []);
 
   useFrame((state) => {
@@ -55,9 +58,9 @@ function AsteroidBelt() {
       </bufferGeometry>
       <pointsMaterial
         color="#888888"
-        size={0.08}
+        size={0.06}
         transparent
-        opacity={0.6}
+        opacity={0.5}
         sizeAttenuation
       />
     </points>
@@ -72,11 +75,25 @@ function EclipticPlane() {
       <meshBasicMaterial
         color="#1a1a4a"
         transparent
-        opacity={0.05}
+        opacity={0.04}
         side={THREE.DoubleSide}
       />
     </mesh>
   );
+}
+
+// Componente para gerir posições dos planetas (para luas)
+function PlanetPositions({ time, children }: { time: number; children: (positions: Map<string, THREE.Vector3>) => React.ReactNode }) {
+  const positions = useMemo(() => {
+    const posMap = new Map<string, THREE.Vector3>();
+    planets.forEach((planet) => {
+      const pos = calculatePositionWithPrecession(planet, time);
+      posMap.set(planet.id, new THREE.Vector3(pos.x, pos.z, pos.y));
+    });
+    return posMap;
+  }, [time]);
+
+  return <>{children(positions)}</>;
 }
 
 export function SolarSystemScene({
@@ -89,7 +106,7 @@ export function SolarSystemScene({
   return (
     <>
       {/* Iluminação ambiente */}
-      <ambientLight intensity={0.08} color="#334466" />
+      <ambientLight intensity={0.06} color="#334466" />
       
       {/* Fundo de estrelas */}
       <Stars
@@ -108,8 +125,17 @@ export function SolarSystemScene({
       {/* Sol */}
       <Sun onClick={() => onPlanetClick(null)} />
 
+      {/* Efeitos solares */}
+      <SolarWind />
+      <GravitationalLensing />
+
       {/* Cintura de asteroides */}
       <AsteroidBelt />
+
+      {/* Cometas */}
+      {comets.map((comet) => (
+        <Comet key={comet.id} comet={comet} time={time} scale={1} />
+      ))}
 
       {/* Planetas */}
       {planets.map((planet) => (
@@ -123,6 +149,28 @@ export function SolarSystemScene({
           showLabels={showLabels}
         />
       ))}
+
+      {/* Sistema de luas */}
+      <PlanetPositions time={time}>
+        {(positions) => (
+          <>
+            {planets.map((planet) => {
+              const planetMoons = moons.filter((m) => m.parentPlanetId === planet.id);
+              if (planetMoons.length === 0) return null;
+              const pos = positions.get(planet.id) || new THREE.Vector3();
+              return (
+                <MoonSystem
+                  key={`moons-${planet.id}`}
+                  parentPlanetId={planet.id}
+                  parentPosition={pos}
+                  time={time}
+                  moons={moons}
+                />
+              );
+            })}
+          </>
+        )}
+      </PlanetPositions>
     </>
   );
 }
